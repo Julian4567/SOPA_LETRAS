@@ -106,5 +106,9 @@ def handle_disconnect():
     print(f"Client disconnected: {sid}")
 
 if __name__ == '__main__':
-    # run with eventlet
-    socketio.run(app, host='0.0.0.0', port=5000)
+    PORT = 5000
+    print(f"\n Servidor iniciado en http://localhost:{PORT}")
+    print(f" Escuchando en el puerto {PORT}...\n")
+    
+    socketio.run(app, host='0.0.0.0', port=PORT)
+

@@ -1,41 +1,45 @@
-<!-- templates/resolver.html -->
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Resolver - Sopa de Letras</title>
-  <link rel="stylesheet" href="/static/styles.css">
-  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
-</head>
-<body>
-  <div class="container">
-    <h1>Solución</h1>
-    <div id="board" class="board"></div>
-    <div id="positions"></div>
-    <a href="/">Volver</a>
-  </div>
+socket.on('solve_result', (data) => {
+  if (!data.ok) {
+    log(data.msg || 'No hay solución');
+    return;
+  }
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const sid = "{{ sid }}"; // rendered by Flask
-  const socket = io();
+  const positions = data.positions;
 
-  // ask server for solution as soon as connected
-  socket.on('connect', () => {
-    socket.emit('request_solve');
+  // limpiar colores anteriores
+  document.querySelectorAll('td').forEach(td => {
+    td.classList.remove('solution', 'color2', 'color3', 'color4', 'color5', 'color6');
   });
 
-  socket.on('solve_result', (data) => {
-    if (!data.ok) {
-      document.getElementById('positions').innerText = data.msg || 'No solution';
-      return;
-    }
-    const positions = data.positions;
-    // we need grid too but server keeps it per sid; if not available, show positions only
-    const posDiv = document.getElementById('positions');
-    posDiv.innerHTML = '<h3>Posiciones:</h3><pre>' + JSON.stringify(positions, null, 2) + '</pre>';
-  });
+  // lista de clases de colores
+  const colorClasses = [
+    ["solution"],
+    ["solution", "color2"],
+    ["solution", "color3"],
+    ["solution", "color4"],
+    ["solution", "color5"],
+    ["solution", "color6"]
+  ];
 
-</script>
-</body>
-</html>
+  let colorIndex = 0;
+
+  // aplicar un color distinto a cada palabra
+  for (const [word, coords] of Object.entries(positions)) {
+    const classesToApply = colorClasses[colorIndex % colorClasses.length];
+    colorIndex++;
+
+    coords.forEach(pair => {
+      const r = pair[0], c = pair[1];
+      const el = document.querySelector(`td[data-r="${r}"][data-c="${c}"]`);
+      if (el) {
+        // remover clases previas
+        el.className = "";
+        // aplicar las nuevas clases
+        classesToApply.forEach(cls => el.classList.add(cls));
+      }
+    });
+  }
+
+  log('Solución mostrada con colores.');
+  stopTimer();
+});

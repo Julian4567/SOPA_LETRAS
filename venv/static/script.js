@@ -1,4 +1,3 @@
-// static/script.js
 const socket = io();
 let grid = [];
 let words = [];
@@ -71,7 +70,7 @@ function onCellClick(e) {
   const r = Number(this.dataset.r);
   const c = Number(this.dataset.c);
   const key = `${r},${c}`;
-  // toggle selection
+  // alternar selección
   const idx = selecting.findIndex(p => p[0]===r && p[1]===c);
   if (idx >= 0) {
     selecting.splice(idx,1);
@@ -84,9 +83,9 @@ function onCellClick(e) {
 
 function submitSelectionAsWord() {
   if (selecting.length === 0) return;
-  // build word from selection in the order selected
+  // Construir palabras a partir de la selección en el orden seleccionado
   const w = selecting.map(p => grid[p[0]][p[1]]).join('');
-  // send to server
+  // enviar al servidor
   socket.emit('submit_word', {word: w, coords: selecting});
 }
 
@@ -110,7 +109,7 @@ document.addEventListener('keydown', (e) => {
     submitSelectionAsWord();
   }
   if (e.key === 'Escape') {
-    // clear selection visually
+    // limpiar selección visualmente
     selecting = [];
     document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
   }
@@ -129,7 +128,7 @@ socket.on('word_result', (data) => {
   if (data.ok) {
     foundWords.add(data.word);
     renderWords();
-    // clear selection and mark selected cells as found
+    // Borrar la selección y marcar las celdas seleccionadas como encontradas
     selecting.forEach(p => {
       const selector = `td[data-r="${p[0]}"][data-c="${p[1]}"]`;
       const el = document.querySelector(selector);
@@ -138,7 +137,7 @@ socket.on('word_result', (data) => {
     selecting = [];
   } else {
     log(data.msg || 'Palabra incorrecta');
-    // keep selection so user can adjust
+    // mantener selección para que el usuario pueda ajustar
   }
 });
 
@@ -148,8 +147,8 @@ socket.on('solve_result', (data) => {
     return;
   }
   const positions = data.positions;
-  // highlight solution on board
-  // clear earlier highlights
+  // resaltar solución en el tablero
+  // limpiar resaltados anteriores
   document.querySelectorAll('td').forEach(td => {
     td.classList.remove('solution');
   });

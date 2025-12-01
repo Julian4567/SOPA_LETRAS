@@ -1,22 +1,180 @@
-/* static/styles.css */
-body { font-family: Arial, sans-serif; background:#f5f7fb; color:#222; padding:20px; }
-.container { max-width:1000px; margin:0 auto; }
-.controls { margin-bottom: 12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
-.controls input { padding:6px; }
-.controls button { padding:6px 10px; cursor:pointer; }
-.timer { margin-left: 12px; font-weight:700; }
-
-.game { display:flex; gap:20px; }
-.words_list { min-width:160px; background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
-.board { background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.08); flex:1; }
-
-.grid { border-collapse:collapse; margin:0 auto; }
-.grid td {
-  width:36px; height:36px; text-align:center; vertical-align:middle;
-  border:1px solid #e1e4ea; font-weight:700; cursor:pointer; user-select:none;
+/* ========  ESTILO GENERAL ======== */
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: linear-gradient(135deg, #e6ecff, #f5f8ff);
+  color: #1a1a1a;
+  margin: 0;
+  padding: 0;
 }
-.grid td.selected { background:#fffae0; }
-.grid td.found { background:#d4ffd4; color:#0a7d00; }
-.grid td.solution { background:#ffd6d6; color:#7d0000; }
 
-.log { margin-top:12px; padding:8px; background:#fff; border-radius:8px; min-height:30px;}
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+}
+
+/* ======== TÍTULO ======== */
+h1 {
+  text-align: center;
+  font-size: 32px;
+  color: #33417c;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+}
+
+/* ======== CONTROLES ======== */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.controls input {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.controls input:focus {
+  border-color: #4b65ff;
+  box-shadow: 0 0 5px rgba(75, 101, 255, 0.6);
+}
+
+/* ======== BOTONES ======== */
+.controls button {
+  padding: 10px 16px;
+  border: none;
+  background: #4b65ff;
+  color: white;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
+}
+
+.controls button:hover {
+  background: #364ad9;
+  transform: scale(1.05);
+}
+
+.timer {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* DISEÑO DEL JUEGO */
+.game {
+  display: flex;
+  gap: 22px;
+}
+
+/* LISTA DE PALABRAS */
+.words_list {
+  min-width: 200px;
+  background: #f7f9ff;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.words_list ul {
+  padding-left: 20px;
+}
+
+.words_list li {
+  margin-bottom: 6px;
+  font-size: 17px;
+  font-weight: bold;
+  color: #2e3a5e;
+}
+
+/* TABLERO */
+.board {
+  flex: 1;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.grid {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.grid td {
+  width: 42px;
+  height: 42px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 6px;
+  background: #eef1ff;
+  border: 2px solid #d8ddff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* Selección */
+.grid td.selected {
+  background: #ffdca8;
+  border-color: #ffb451;
+}
+
+/* Palabra encontrada */
+.grid td.found {
+  background: #caffdf;
+  border-color: #4cb86a;
+  color: #0f6b2f;
+}
+
+/* COLORES PARA LAS SOLUCIONES */
+/* Cada palabra se resalta con un color pastel diferente */
+.grid td.solution {
+  background: #ffb3ba;   /* Rojo pastel */
+  color: #820000;
+}
+
+.grid td.solution.color2 {
+  background: #ffdfba;   /* Naranja pastel */
+  color: #7a3e00;
+}
+
+.grid td.solution.color3 {
+  background: #ffffba;   /* Amarillo pastel */
+  color: #7a7700;
+}
+
+.grid td.solution.color4 {
+  background: #baffc9;   /* Verde pastel */
+  color: #005f2f;
+}
+
+.grid td.solution.color5 {
+  background: #bae1ff;   /* Azul pastel */
+  color: #003c73;
+}
+
+.grid td.solution.color6 {
+  background: #e0baff;   /* Morado pastel */
+  color: #4a007a;
+}
+
+/* LOG */
+.log {
+  margin-top: 20px;
+  padding: 12px;
+  background: #f4f5ff;
+  border-radius: 10px;
+  font-weight: 500;
+  border-left: 4px solid #4b65ff;
+  min-height: 28px;
+}
