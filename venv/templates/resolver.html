@@ -1,0 +1,41 @@
+<!-- templates/resolver.html -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Resolver - Sopa de Letras</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Solución</h1>
+    <div id="board" class="board"></div>
+    <div id="positions"></div>
+    <a href="/">Volver</a>
+  </div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const sid = "{{ sid }}"; // rendered by Flask
+  const socket = io();
+
+  // ask server for solution as soon as connected
+  socket.on('connect', () => {
+    socket.emit('request_solve');
+  });
+
+  socket.on('solve_result', (data) => {
+    if (!data.ok) {
+      document.getElementById('positions').innerText = data.msg || 'No solution';
+      return;
+    }
+    const positions = data.positions;
+    // we need grid too but server keeps it per sid; if not available, show positions only
+    const posDiv = document.getElementById('positions');
+    posDiv.innerHTML = '<h3>Posiciones:</h3><pre>' + JSON.stringify(positions, null, 2) + '</pre>';
+  });
+
+</script>
+</body>
+</html>

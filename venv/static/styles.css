@@ -1,0 +1,22 @@
+/* static/styles.css */
+body { font-family: Arial, sans-serif; background:#f5f7fb; color:#222; padding:20px; }
+.container { max-width:1000px; margin:0 auto; }
+.controls { margin-bottom: 12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+.controls input { padding:6px; }
+.controls button { padding:6px 10px; cursor:pointer; }
+.timer { margin-left: 12px; font-weight:700; }
+
+.game { display:flex; gap:20px; }
+.words_list { min-width:160px; background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
+.board { background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.08); flex:1; }
+
+.grid { border-collapse:collapse; margin:0 auto; }
+.grid td {
+  width:36px; height:36px; text-align:center; vertical-align:middle;
+  border:1px solid #e1e4ea; font-weight:700; cursor:pointer; user-select:none;
+}
+.grid td.selected { background:#fffae0; }
+.grid td.found { background:#d4ffd4; color:#0a7d00; }
+.grid td.solution { background:#ffd6d6; color:#7d0000; }
+
+.log { margin-top:12px; padding:8px; background:#fff; border-radius:8px; min-height:30px;}
