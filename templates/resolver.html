@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Resolver - Sopa de Letras</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Resolver juego</h1>
+      <p>Sid objetivo: <strong>{{ sid }}</strong></p>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <button id="show_solution">Mostrar solución</button>
+        <a href="/">Volver al juego</a>
+      </div>
+      <div class="log" id="log"></div>
+    </div>
+
+    <script>
+      const socket = io();
+      const targetSid = "{{ sid }}";
+
+      function log(msg){
+        const l = document.getElementById('log');
+        l.innerText = msg;
+      }
+
+      document.getElementById('show_solution').onclick = () => {
+        socket.emit('request_solve_for', {sid: targetSid});
+      }
+
+      socket.on('solve_result', (data) => {
+        if (!data.ok) {
+          log(data.msg || 'No hay solución');
+          return;
+        }
+
+        // Forward the solve result as a log and (optionally) open a simple visualizer
+        log('Solución recibida. Revisa la consola para detalles.');
+        console.log('solve positions:', data.positions);
+      });
+    </script>
+  </body>
+</html>
